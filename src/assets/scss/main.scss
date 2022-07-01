@@ -61,3 +61,8 @@ $bg-main-color: #000000;
 $text-main: #FFFFFF;
 $original-movie-title: #6f42c1;
 $vote-color: #3dcd00;
+
+body {
+	background-color: $bg-main-color;
+	color: $text-main;
+}

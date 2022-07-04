@@ -1,33 +1,103 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #572d88;">
-    <a class="navbar-brand" href="#">Don’t Forget !</a>
+    <router-link class="navbar-brand" to="/">Don’t Forget !</router-link>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#">To Watch</a>
+        <router-link class="nav-link" to="/to-watch">To Watch</router-link>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="search-input mr-sm-2" type="search" placeholder="請輸入電影名稱" aria-label="Search">
-      <div class="search-icon-wrapper">
+    <form class="form-inline search-form my-2 my-lg-0"
+     @submit.stop.prevent="searchMovies"
+     :class="{ 'search-active' : searchActive }">
+      <input v-model="keyword" @focus="searchFocus" @blur="searchBlur"
+      class="search-input mr-sm-2" type="search" placeholder="請輸入電影名稱" aria-label="Search">
+      <div @click="searchMovies" class="search-icon-wrapper">
         <font-awesome-icon icon="fa-solid fa-magnifying-glass" />
       </div>
     </form>
   </nav>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      keyword: '',
+      searchActive: false
+    }
+  },
+  methods: {
+    searchFocus() {
+      this.searchActive = true
+    },
+    searchBlur() {
+      this.searchActive = false
+    },
+    searchMovies() {
+      if(this.keyword.length === 0) {
+        return
+      }
+      console.log('想搜尋的關鍵字為：'+ this.keyword )
+      document.activeElement.blur()
+    }
+  }
+}
+</script>
+
 <style lang="scss" scoped>
 @import url('https://fonts.googleapis.com/css2?family=Splash&display=swap');
+
+nav.navbar {
+  height: 3.75rem;
+}
 
 .navbar-brand {
   user-select: none;
   font-family: 'Splash', cursive;
+  color: #DAA520;
+  &:focus {
+    color: #DAA520;
+  }
+}
+
+form.search-form {
+  // border: 1px solid #FFF;
+  // border-radius: 5px;
+  font-size: 0.9em;
+  &:hover {
+    border-bottom: 1px solid rgba(255,255,255,.5); 
+  }
+  &.search-active {
+    border-bottom: 1px solid rgba(255,255,255,.5); 
+  }
+  input.search-input {
+    background-color: transparent;
+    border: 0;
+    outline: none; /* 外框效果 */
+    color: #FFF;
+    margin: 0 6px 0 12px;
+    
+    &::placeholder{
+      color: #FFF;
+      opacity: 0.6;
+    }
+  }
+  .search-icon-wrapper {
+    margin-right: 12px;
+    cursor: pointer;
+  }
 }
 
 
+
+/* media query */
 // Small devices , > 576px 
 @media screen and (min-width: 576px) {
   .navbar-brand {
     font-size: 1.4em;
+  }
+  form.search-form {
+    font-size: inherit;
   }
 }
 

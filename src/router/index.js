@@ -6,6 +6,16 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: "/",
+    name: 'movies',
+    component: () => import('../views/Movies.vue')
+  },
+  {
+    path: "/to-watch",
+    name: 'to-watch',
+    component: () => import('../views/ToWatch.vue')
+  },
+  {
     path: "*",
     name: "not-found",
     component: NotFound,
@@ -13,6 +23,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
+  linkExactActiveClass: 'active',
   routes
 })
 

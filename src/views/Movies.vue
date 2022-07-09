@@ -3,114 +3,16 @@
     <div class="movie-list">
       <div class="movie-list__title">本週熱門</div>
       <ul class="movie-list__list">
-        <li class="list-item">
+        <li v-for="movie in movies" :key="movie.id" class="list-item">
           <router-link to="/" class="item-wrapper">
           <div class="hover-wrapper">
              <div class="movie-poster">
-              <img src="https://capi.showtimes.com.tw/thumbs/d2/d2b38d6761ef4dae66f7c549719bb43c.jpeg" alt="" class="poster">
+              <img :src="movie.posterPath | fullyImagePath" alt="" class="poster">
             </div>
             <div class="movie-info">
-              <div class="movie-info__movie-title">雷神索爾：愛與雷霆</div>
-              <div class="movie-info__movie-original-title">Thor: Love and Thunder</div>
-              <div class="movie-info__movie-release-date">上映日期：<span>2022-07-06</span></div>
-            </div>
-          </div>
-          </router-link>
-        </li>
-        <li class="list-item">
-          <router-link to="/" class="item-wrapper">
-          <div class="hover-wrapper">
-             <div class="movie-poster">
-              <img src="https://capi.showtimes.com.tw/thumbs/d2/d2b38d6761ef4dae66f7c549719bb43c.jpeg" alt="" class="poster">
-            </div>
-            <div class="movie-info">
-              <div class="movie-info__movie-title">雷神索爾：愛與雷霆</div>
-              <div class="movie-info__movie-original-title">Thor: Love and Thunder</div>
-              <div class="movie-info__movie-release-date">上映日期：<span>2022-07-06</span></div>
-            </div>
-          </div>
-          </router-link>
-        </li>
-        <li class="list-item">
-          <router-link to="/" class="item-wrapper">
-          <div class="hover-wrapper">
-             <div class="movie-poster">
-              <img src="https://capi.showtimes.com.tw/thumbs/d2/d2b38d6761ef4dae66f7c549719bb43c.jpeg" alt="" class="poster">
-            </div>
-            <div class="movie-info">
-              <div class="movie-info__movie-title">雷神索爾：愛與雷霆</div>
-              <div class="movie-info__movie-original-title">Thor: Love and Thunder</div>
-              <div class="movie-info__movie-release-date">上映日期：<span>2022-07-06</span></div>
-            </div>
-          </div>
-          </router-link>
-        </li>
-        <li class="list-item">
-          <router-link to="/" class="item-wrapper">
-          <div class="hover-wrapper">
-             <div class="movie-poster">
-              <img src="https://capi.showtimes.com.tw/thumbs/d2/d2b38d6761ef4dae66f7c549719bb43c.jpeg" alt="" class="poster">
-            </div>
-            <div class="movie-info">
-              <div class="movie-info__movie-title">雷神索爾：愛與雷霆</div>
-              <div class="movie-info__movie-original-title">Thor: Love and Thunder</div>
-              <div class="movie-info__movie-release-date">上映日期：<span>2022-07-06</span></div>
-            </div>
-          </div>
-          </router-link>
-        </li>
-        <li class="list-item">
-          <router-link to="/" class="item-wrapper">
-          <div class="hover-wrapper">
-             <div class="movie-poster">
-              <img src="https://capi.showtimes.com.tw/thumbs/d2/d2b38d6761ef4dae66f7c549719bb43c.jpeg" alt="" class="poster">
-            </div>
-            <div class="movie-info">
-              <div class="movie-info__movie-title">雷神索爾：愛與雷霆</div>
-              <div class="movie-info__movie-original-title">Thor: Love and Thunder</div>
-              <div class="movie-info__movie-release-date">上映日期：<span>2022-07-06</span></div>
-            </div>
-          </div>
-          </router-link>
-        </li>
-        <li class="list-item">
-          <router-link to="/" class="item-wrapper">
-          <div class="hover-wrapper">
-             <div class="movie-poster">
-              <img src="https://capi.showtimes.com.tw/thumbs/d2/d2b38d6761ef4dae66f7c549719bb43c.jpeg" alt="" class="poster">
-            </div>
-            <div class="movie-info">
-              <div class="movie-info__movie-title">雷神索爾：愛與雷霆</div>
-              <div class="movie-info__movie-original-title">Thor: Love and Thunder</div>
-              <div class="movie-info__movie-release-date">上映日期：<span>2022-07-06</span></div>
-            </div>
-          </div>
-          </router-link>
-        </li>
-        <li class="list-item">
-          <router-link to="/" class="item-wrapper">
-          <div class="hover-wrapper">
-             <div class="movie-poster">
-              <img src="https://capi.showtimes.com.tw/thumbs/d2/d2b38d6761ef4dae66f7c549719bb43c.jpeg" alt="" class="poster">
-            </div>
-            <div class="movie-info">
-              <div class="movie-info__movie-title">雷神索爾：愛與雷霆</div>
-              <div class="movie-info__movie-original-title">Thor: Love and Thunder</div>
-              <div class="movie-info__movie-release-date">上映日期：<span>2022-07-06</span></div>
-            </div>
-          </div>
-          </router-link>
-        </li>
-        <li class="list-item">
-          <router-link to="/" class="item-wrapper">
-          <div class="hover-wrapper">
-             <div class="movie-poster">
-              <img src="https://capi.showtimes.com.tw/thumbs/d2/d2b38d6761ef4dae66f7c549719bb43c.jpeg" alt="" class="poster">
-            </div>
-            <div class="movie-info">
-              <div class="movie-info__movie-title">雷神索爾：愛與雷霆</div>
-              <div class="movie-info__movie-original-title">Thor: Love and Thunder</div>
-              <div class="movie-info__movie-release-date">上映日期：<span>2022-07-06</span></div>
+              <div class="movie-info__movie-title">{{ movie.title }}</div>
+              <div class="movie-info__movie-original-title">{{ movie.originalTitle }}</div>
+              <div class="movie-info__movie-release-date">上映日期：<span>{{ movie.releaseDate }}</span></div>
             </div>
           </div>
           </router-link>
@@ -127,17 +29,36 @@
 </template>
 
 <script>
+import moviesAPI from '../apis/movies'
+import { imageUrlFilter } from '../utils/mixin'
+
 export default {
+  mixins: [ imageUrlFilter ],
+  created() {
+    this.fetchTrending()
+  },
   data() {
     return {
-
+      movies: []
     }
   },
   methods: {
-    fetchTrending() {
-      
+    async fetchTrending() {
+      try {
+        const { data }  = await moviesAPI.getTrending()
+        this.movies = data.results.map((movie) => ({
+          id: movie.id,
+          posterPath: movie.poster_path,
+          title: movie.title,
+          originalTitle: movie.original_title,
+          releaseDate: movie.release_date
+        }))
+
+      } catch (error) {
+        console.log('error', error)
+      }
     }
-  }
+  },
 }
 </script>
 

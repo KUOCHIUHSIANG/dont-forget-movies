@@ -30,6 +30,11 @@ body {
 ol, ul {
 	list-style: none;
 }
+a,
+a:hover,
+a:focus {
+  text-decoration: none;
+}
 blockquote, q {
 	quotes: none;
 }
@@ -57,12 +62,18 @@ img{
 
 /*  color  */
 $brand-purple: #572d88;
+$brand-sub-purple: #c08bff;
 $bg-main-color: #000000;
 $text-main: #FFFFFF;
-$original-movie-title: #6f42c1;
+$original-movie-title: #ab7dff;
 $vote-color: #3dcd00;
 
 body {
 	background-color: $bg-main-color;
 	color: $text-main;
+}
+
+.container {
+  max-width: unset;
+	padding: 0 10px;
 }

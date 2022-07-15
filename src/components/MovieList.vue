@@ -2,13 +2,14 @@
   <div class="movie-list">
     <div class="movie-list__title">{{ title }}</div>
     <ul class="movie-list__list">
-      <li v-for="movie in movies" :key="movie.id" class="list-item">
-        <router-link to="/" class="item-wrapper">
+      <li v-for="movie in movies" :key="movie.id" 
+      class="list-item">
+        <router-link to="/" v-if="movie.posterPath"  class="item-wrapper">
           <div class="hover-wrapper">
             <div class="movie-poster">
               <img
                 :src="movie.posterPath | fullyImagePath"
-                alt=""
+                alt="poster"
                 class="poster"
               />
             </div>

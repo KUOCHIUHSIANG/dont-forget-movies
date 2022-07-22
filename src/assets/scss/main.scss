@@ -61,10 +61,12 @@ img{
 
 // 導入變數
 @import './variable.scss';
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;500;700&display=swap');
 
-body {
+html, body {
 	background-color: $bg-main-color;
 	color: $text-main;
+	font-family: 'Arial', 'Noto Sans TC', sans-serif;
 }
 
 .container {

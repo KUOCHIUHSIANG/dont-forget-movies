@@ -25,8 +25,8 @@
         </div>
         <div class="modal-body">
           <div class="movie-detail-body">
-            <div class="movie-info-wrapper">
-              <div class="movie-info">
+            <div class="movie-info">
+              <div class="movie-info-wrapper">
                 <div class="release-date">
                   <span class="info-title">上映日期：</span>2022-06-17
                 </div>
@@ -39,14 +39,14 @@
               </div>
             </div>
             <div class="movie-vote">
-              平均獲得<span class="movie-vote-average">6.2</span>分（<span
+              平均獲得<span class="movie-vote-average"> 6.2 </span>分（<span
                 class="movie-vote-count"
                 >8820</span
               >個評分）
             </div>
             <div class="movie-overview">
               <span class="info-title">電影簡介：</span>
-              <p>
+              <p class="movie-overview">
                 布魯斯韋恩雖然是高譚市首富家族的繼承者，性格卻非常孤僻，同時在夜晚化身為蝙蝠俠打擊罪犯。當謎天大聖留下新的謎題，設下陷阱殺害高譚市的菁英份子後，蝙蝠俠循著神祕線索，並與貓女聯手為高譚市伸張正義。
                 兩年來，布魯斯韋恩化身為蝙蝠俠 (羅伯派汀森 飾)
                 在街頭剷惡鋤奸，逐漸在罪犯腦中植入恐懼的種子，並在其他市民心中建立了復仇使者的形象，與此同時卻也讓自己牽扯進高譚市的陰暗面中。他在高譚市貪汙腐敗的政府官員和名人之中，也只有少數可以信任的盟友，盟友包含阿福潘尼沃斯
@@ -67,6 +67,72 @@
             <div class="movie-collection-list">
               <div class="movie-collection-list__title"><span class="info-title">相關系列：</span></div>
               <ul class="movie-collection-list__list">
+                <li class="list-item">
+                  <div class="hover-wrapper">
+                      <div class="movie-poster">
+                        <img
+                          src="https://image.tmdb.org/t/p/original/tuzKA9K5Ae9IzaA0R9oAgbyhAI3.jpg"
+                          alt="poster"
+                          class="poster"
+                        />
+                      </div>
+                      <div class="movie-info">
+                        <div class="movie-info__movie-title">
+                          蝙蝠俠
+                        </div>
+                        <div class="movie-info__movie-original-title">
+                          bat man
+                        </div>
+                        <div class="movie-info__movie-release-date">
+                          上映日期：<span>2023-06-30</span>
+                        </div>
+                      </div>
+                  </div>
+                </li>
+                <li class="list-item">
+                  <div class="hover-wrapper">
+                      <div class="movie-poster">
+                        <img
+                          src="https://image.tmdb.org/t/p/original/tuzKA9K5Ae9IzaA0R9oAgbyhAI3.jpg"
+                          alt="poster"
+                          class="poster"
+                        />
+                      </div>
+                      <div class="movie-info">
+                        <div class="movie-info__movie-title">
+                          蝙蝠俠
+                        </div>
+                        <div class="movie-info__movie-original-title">
+                          bat man
+                        </div>
+                        <div class="movie-info__movie-release-date">
+                          上映日期：<span>2023-06-30</span>
+                        </div>
+                      </div>
+                  </div>
+                </li>
+                <li class="list-item">
+                  <div class="hover-wrapper">
+                      <div class="movie-poster">
+                        <img
+                          src="https://image.tmdb.org/t/p/original/tuzKA9K5Ae9IzaA0R9oAgbyhAI3.jpg"
+                          alt="poster"
+                          class="poster"
+                        />
+                      </div>
+                      <div class="movie-info">
+                        <div class="movie-info__movie-title">
+                          蝙蝠俠
+                        </div>
+                        <div class="movie-info__movie-original-title">
+                          bat man
+                        </div>
+                        <div class="movie-info__movie-release-date">
+                          上映日期：<span>2023-06-30</span>
+                        </div>
+                      </div>
+                  </div>
+                </li>
                 <li class="list-item">
                   <div class="hover-wrapper">
                       <div class="movie-poster">
@@ -171,8 +237,73 @@ export default {
       }
     }
   }
+
   .modal-body {
     flex: 1 2 auto;
+    span.info-title {
+      color: #777777;
+    }
+
+    .movie-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      line-height: 1.8;
+    }
+
+    .movie-vote {
+      font-size: 12px;
+      color: $vote-color;
+      &-average {
+        font-size: 16px;
+      }
+    }
+
+    .movie-vote, p.movie-overview, .movie-cast,.movie-collection-list__title {
+      margin: 20px 0;
+      line-height: 1.5;
+    }
+
+    .movie-info, p.movie-overview, .movie-cast{
+      font-weight: 300;
+    }
+
+    ul.movie-collection-list__list {
+      display: flex;
+      flex-wrap: wrap;
+      li.list-item {
+        margin: 0 0.8em 0.8em 0;
+        cursor: pointer;
+        .movie-poster {
+          width: 150px;
+          height: 225px;
+        }
+        .movie-info {
+          flex-direction: column;
+          align-items: center;
+          line-height: 1.2;
+          &__movie-original-title {
+            color: $original-movie-title;
+          }
+        }
+      }
+    }
   }
 }
+
+/* media query */
+// Small devices , > 576px 
+@media screen and (min-width: 576px) {
+  .modal-dialog {
+    max-width: 95%;
+  }
+}
+
+// Medium devices , > 768px
+@media screen and (min-width: 768px) {
+  .modal-dialog {
+    max-width: 70%;
+  }
+}
+
 </style>

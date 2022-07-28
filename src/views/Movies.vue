@@ -1,26 +1,26 @@
 <template>
   <div class="container py-5">
-    <MovieList :initialMovies="trendingMovies" :initialTitle="trendingTitle" />
-    <MovieList :initialMovies="onShowMovies" :initialTitle="onShowTitle" />
-    <MovieList :initialMovies="comingMovies" :initialTitle="comingTitle" />
+    <MovieList :initialMovies="trendingMovies" :initialTitle="trendingTitle" @after-show-modal="afterShowModal"/>
+    <MovieList :initialMovies="onShowMovies" :initialTitle="onShowTitle" @after-show-modal="afterShowModal"/>
+    <MovieList :initialMovies="comingMovies" :initialTitle="comingTitle" @after-show-modal="afterShowModal"/>
     <MovieList
       :initialMovies="popularityMovies"
       :initialTitle="popularityTitle"
+      @after-show-modal="afterShowModal"
     />
     <!-- modal -->
-    <MovieDetail />
+    <router-view v-if="modalVisibility" @after-close-modal="afterCloseModal" />
+    <div class="modal-backdrop" v-if="modalVisibility"></div>
   </div>
 </template>
 
 <script>
 import moviesAPI from "../apis/movies";
 import MovieList from "../components/MovieList.vue";
-import MovieDetail from "../components/MovieDetail.vue"
 
 export default {
   components: {
     MovieList,
-    MovieDetail
   },
   created() {
     this.getToday();
@@ -40,6 +40,8 @@ export default {
       comingTitle: "即將上映",
       popularityTitle: "近期受歡迎",
       today: "",
+      modalVisibility: false,
+      fetchMovieId: 0
     };
   },
   methods: {
@@ -99,6 +101,23 @@ export default {
         releaseDate: movie.release_date,
       }));
     },
+    afterShowModal(movieId) {
+      this.fetchMovieId = movieId
+      this.modalVisibility = true
+      document.body.style.overflow = 'hidden'
+    },
+    afterCloseModal() {
+      this.modalVisibility = false
+      document.body.removeAttribute('style')
+      this.$router.push('/movies')
+    }
   },
 };
 </script>
+
+<style lang="scss" scoped>
+
+.modal-backdrop {
+  opacity: .5;
+}
+</style>

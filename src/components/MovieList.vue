@@ -4,8 +4,8 @@
     <ul class="movie-list__list">
       <li v-for="movie in movies" :key="movie.id" 
       class="list-item">
-        <router-link to="/" v-if="movie.posterPath"  class="item-wrapper" data-toggle="modal" data-target="#movie-detail">
-          <div class="hover-wrapper">
+        <router-link :to="{ name: 'movie-detail', params: { id: movie.id }}" v-if="movie.posterPath"  class="item-wrapper"> 
+          <div class="hover-wrapper"  @click="showModal(movie.id)">
             <div class="movie-poster">
               <img
                 :src="movie.posterPath | fullyImagePath"
@@ -49,6 +49,11 @@ export default {
     return {
       movies: this.initialMovies,
       title: this.initialTitle
+    }
+  },
+  methods: {
+    showModal(movieId) {
+      this.$emit('after-show-modal', movieId)
     }
   },
   watch: {

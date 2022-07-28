@@ -1,6 +1,7 @@
 <template>
   <div class="modal" tabindex="-1" id="movie-detail">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+    v-click-outside="closeModal">
       <div class="modal-content">
         <div
           class="movie-detail-header"
@@ -16,9 +17,8 @@
           <div class="movie-detail-header-add-button button-size">＋</div>
           <div class="movie-detail-header-delete-button button-size">✔</div>
           <div
-            class="movie-detail-header-close-button"
-            data-dismiss="modal"
-            aria-label="Close"
+            class="movie-detail-header-close-button"    
+            @click="closeModal"        
           >
             ✕
           </div>
@@ -172,12 +172,22 @@ export default {
         "https://image.tmdb.org/t/p/original/IYUD7rAIXzBM91TT3Z5fILUS7n.jpg",
     };
   },
+  methods: {
+    closeModal() {
+      this.$emit('after-close-modal')
+    }
+  }
 };
 </script>
 >
 
 <style lang="scss" scoped>
 @import "../assets/scss/variable.scss";
+
+.modal {
+  display: block;
+}
+
 
 .modal-content {
   background-color: #181818;
@@ -303,6 +313,20 @@ export default {
 @media screen and (min-width: 768px) {
   .modal-dialog {
     max-width: 70%;
+  }
+}
+
+// Large devices , > 992px
+@media screen and (min-width: 992px) {
+  .modal-dialog {
+    max-width: 65%;
+  }
+}
+
+// Extra large devices , > 1200px
+@media screen and (min-width: 1200px) {
+  .modal-dialog {
+    max-width: 50%;
   }
 }
 

@@ -1,5 +1,6 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #572d88;">
+<div class="nav-container">
+   <nav class="navbar navbar-expand-lg navbar-dark">
     <router-link class="navbar-brand" to="/">Don’t Forget !</router-link>
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
@@ -16,6 +17,7 @@
       </div>
     </form>
   </nav>
+</div>
 </template>
 
 <script>
@@ -45,10 +47,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '../assets/scss/variable.scss';
 @import url('https://fonts.googleapis.com/css2?family=Splash&display=swap');
 
-nav.navbar {
-  height: 3.75rem;
+.nav-container {
+  background-color: $brand-purple;
+  nav.navbar {
+    height: 3.75rem;
+    margin: 0 auto;
+    max-width: 1200px;
+  }
 }
 
 .navbar-brand {
@@ -61,8 +69,6 @@ nav.navbar {
 }
 
 form.search-form {
-  // border: 1px solid #FFF;
-  // border-radius: 5px;
   font-size: 0.9em;
   &:hover {
     border-bottom: 1px solid rgba(255,255,255,.5); 

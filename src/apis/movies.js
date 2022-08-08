@@ -20,5 +20,16 @@ export default {
     return apiHelper.get(
       `/discover/movie?api_key=${apiKEY}&language=zh-TW&region=TW&with_release_type=2|3&sort_by=popularity.desc`
     );
+  },
+  getMovieDetail({ movieId }) {
+    return apiHelper.get(
+      `/movie/${ movieId }?api_key=${ apiKEY }&language=zh-TW&region=TW&append_to_response=credits`
+    );
+  },
+  getCollection({ collectionId }) {
+    console.log(collectionId);
+    return apiHelper.get(
+      `/collection/${ collectionId }?api_key=${ apiKEY }&language=zh-TW&region=TW`
+    );
   }
 };

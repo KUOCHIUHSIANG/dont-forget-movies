@@ -9,7 +9,7 @@
       @after-show-modal="afterShowModal"
     />
     <!-- modal -->
-    <router-view v-if="modalVisibility" @after-close-modal="afterCloseModal" />
+    <router-view v-if="modalVisibility" @after-close-modal="afterCloseModal" :initialMovie="movie" :initialCollectionData="collectionData"/>
     <div class="modal-backdrop" v-if="modalVisibility"></div>
   </div>
 </template>
@@ -41,7 +41,22 @@ export default {
       popularityTitle: "近期受歡迎",
       today: "",
       modalVisibility: false,
-      fetchMovieId: 0
+      fetchMovieId: 0,
+      movie: {
+        id: 0,
+        backdrop_path: "",
+        genres: [],
+        belongs_to_collection: {},
+        title: "",
+        original_title: "",
+        release_date: "",
+        runtime: 0,
+        overview: "",
+        vote_average: 0,
+        vote_count: 0,
+        credits: {},
+      },
+      collectionData: []
     };
   },
   methods: {
@@ -49,13 +64,15 @@ export default {
       const date = new Date();
       const year = date.getFullYear();
       let month = date.getMonth() + 1;
-      const day = date.getDate();
+      let day = date.getDate();
 
       if (month < 10) {
         month = 0 + month.toString();
       }
-
-      this.today = year + "-" + month + "-" + day;
+      if (day < 10) {
+        day = 0 + day.toString();
+      }
+      this.today = year + "-" + month + "-" + day;    
     },
     async fetchTrending() {
       try {
@@ -101,8 +118,34 @@ export default {
         releaseDate: movie.release_date,
       }));
     },
-    afterShowModal(movieId) {
+    async afterShowModal(movieId) {
       this.fetchMovieId = movieId
+      const { data } = await moviesAPI.getMovieDetail({ movieId })   
+      console.log(data);
+      this.movie = {
+        ...this.movie,
+        id: data.id,
+        backdrop_path: data.backdrop_path,
+        genres: data.genres,
+        belongs_to_collection: data.belongs_to_collection,
+        title: data.title,
+        original_title: data.original_title,
+        release_date: data.release_date,
+        runtime: data.runtime,
+        overview: data.overview,
+        vote_average: data.vote_average,
+        vote_count: data.vote_count,
+        credits: data.credits,
+      }
+
+      if (data.belongs_to_collection) {
+        let collectionId = data.belongs_to_collection.id
+        const response = await moviesAPI.getCollection({ collectionId })
+        this.collectionData = response.data.parts.filter(collection => collection.id !== this.movie.id)
+      } else {
+        this.collectionData = null
+      }
+      
       this.modalVisibility = true
       document.body.style.overflow = 'hidden'
     },

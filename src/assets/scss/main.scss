@@ -62,10 +62,11 @@ table {
 	border-spacing: 0;
 }
 
-/* rwd img css，使圖片縮放 */
 img{
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
 }
 
 /* 全域 border box：所有元素不用算 padding */

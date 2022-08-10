@@ -31,10 +31,10 @@
 
 
 <script>
-import { imageUrlFilter } from '../utils/mixin'
+import { mixinFilter } from '../utils/mixin'
 
 export default {
-  mixins: [ imageUrlFilter ],
+  mixins: [ mixinFilter ],
   props: {
     initialTitle: {
       type: String,
@@ -87,7 +87,7 @@ a:hover .hover-wrapper {
 
 .movie-list {
   margin: 0 auto;
-  max-width: 1170px;
+  max-width: 992px;
   font-size: 1rem;
   &__title {
     color: $brand-sub-purple;
@@ -103,11 +103,6 @@ a:hover .hover-wrapper {
       .movie-poster {
         width: 16.56em;
         height: 23.56em;
-        img.poster {
-          width: 100%;
-          height: 100%;
-          object-fit:cover;
-        }
       }
       .movie-info {
         line-height: 1.5;

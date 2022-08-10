@@ -7,12 +7,12 @@
           class="movie-detail-header"
           :style="{
             backgroundImage:
-              'linear-gradient(transparent, #181818) , url(' + backdrop + ')',
+              'linear-gradient(transparent, #181818) , url(' + backdropFilter(movie.backdrop_path) + ')',
           }"
         >
           <div class="movie-detail-header-title-wrapper">
-            <div class="movie-title">惡靈古堡</div>
-            <div class="movie-original-title">Resident evil</div>
+            <div class="movie-title">{{ movie.title }}</div>
+            <div class="movie-original-title">{{ movie.original_title }}</div>
           </div>
           <div class="movie-detail-header-add-button button-size">＋</div>
           <div class="movie-detail-header-delete-button button-size">✔</div>
@@ -28,129 +28,63 @@
             <div class="movie-info">
               <div class="movie-info-wrapper">
                 <div class="release-date">
-                  <span class="info-title">上映日期：</span>2022-06-17
+                  <span class="info-title">上映日期：</span>{{ movie.release_date }}
                 </div>
                 <div class="runtime">
-                  <span class="info-title">片長：</span>1 時 47 分
+                  <span class="info-title">片長：</span>{{ runtimeConverter }}
                 </div>
               </div>
               <div class="movie-genres">
-                <span class="info-title">類型：</span>犯罪、懸疑、驚悚
+                 <span class="info-title">類型：</span>
+                 <span class="comma" v-for="genre in movie.genres" :key="genre.id">{{ toTC(genre.name) }}</span>
               </div>
             </div>
-            <div class="movie-vote">
-              平均獲得<span class="movie-vote-average"> 6.2 </span>分（<span
+            <div class="movie-vote" v-if="movie.vote_count !== 0">
+              平均獲得<span class="movie-vote-average"> {{ voteAverageConverter }} </span>分（<span
                 class="movie-vote-count"
-                >8820</span
+                >{{ movie.vote_count }}</span
               >個評分）
             </div>
+            <div class="movie-vote-empty" v-else>
+              目前尚無評分
+            </div>
+
             <div class="movie-overview">
               <span class="info-title">電影簡介：</span>
-              <p class="movie-overview">
-                布魯斯韋恩雖然是高譚市首富家族的繼承者，性格卻非常孤僻，同時在夜晚化身為蝙蝠俠打擊罪犯。當謎天大聖留下新的謎題，設下陷阱殺害高譚市的菁英份子後，蝙蝠俠循著神祕線索，並與貓女聯手為高譚市伸張正義。
-                兩年來，布魯斯韋恩化身為蝙蝠俠 (羅伯派汀森 飾)
-                在街頭剷惡鋤奸，逐漸在罪犯腦中植入恐懼的種子，並在其他市民心中建立了復仇使者的形象，與此同時卻也讓自己牽扯進高譚市的陰暗面中。他在高譚市貪汙腐敗的政府官員和名人之中，也只有少數可以信任的盟友，盟友包含阿福潘尼沃斯
-                (安迪瑟克斯 飾) 及詹姆斯高登 (傑佛瑞萊特 飾)。
-                當一名兇手透過一連串殘忍的陰謀詭計，虐殺高譚市許多菁英份子後，蝙蝠俠這位世上最偉大的偵探依循著神祕線索，展開對地下社會的調查行動，並遇見塞琳娜凱爾/別名貓女
-                (柔伊克拉維茲 飾)、奧斯華科波特/別名企鵝人 (柯林法洛
-                飾)、卡麥法爾康尼 (約翰特托羅 飾)，以及愛德華納許頓/別名謎天大聖
-                (保羅迪諾 飾)
-                等人。當證據顯示兇手越來越接近，其計畫也越來越明朗，蝙蝠俠必須建立好新的關係，揭露兇手的真面目，並為長久以來發生貪腐弊端的高譚市伸張正義。
+              <p class="movie-overview" v-if="movie.overview">
+                {{ movie.overview }}
+              </p>
+              <p class="movie-overview" v-else>
+                尚無電影簡介
               </p>
             </div>
             <div class="movie-cast">
-              <span class="info-title">演員：</span>Chris Hemsworth、Natalie
-              Portman、Christian Bale、Tessa Thompson、Taika Waititi
-              <span class="movie-cast-more">查看更多...</span>
-              <span class="movie-cast-less">查看更少...</span>
+              <span class="info-title">演員：</span>
+              <span class="comma" v-for="cast in castSlice" :key="cast.id">{{ cast.name }}</span>
+              <span class="movie-cast-view" v-if="castSlice.length === 5" @click="moreCast()">查看全部...</span>
+              <span class="movie-cast-view" v-else @click="lessCast()">收合</span>
             </div>
-            <div class="movie-collection-list">
+            <div class="movie-collection-list" v-if="collectionData">
               <div class="movie-collection-list__title"><span class="info-title">相關系列：</span></div>
               <ul class="movie-collection-list__list">
-                <li class="list-item">
+                <li class="list-item" v-for="collection in collectionData" :key="collection.id">
                   <div class="hover-wrapper">
                       <div class="movie-poster">
                         <img
-                          src="https://image.tmdb.org/t/p/original/tuzKA9K5Ae9IzaA0R9oAgbyhAI3.jpg"
+                          :src="collection.poster_path | fullyImagePath"
                           alt="poster"
                           class="poster"
                         />
                       </div>
                       <div class="movie-info">
                         <div class="movie-info__movie-title">
-                          蝙蝠俠
+                          {{ collection.title }}
                         </div>
                         <div class="movie-info__movie-original-title">
-                          bat man
+                          {{ collection.original_title }}
                         </div>
                         <div class="movie-info__movie-release-date">
-                          上映日期：<span>2023-06-30</span>
-                        </div>
-                      </div>
-                  </div>
-                </li>
-                <li class="list-item">
-                  <div class="hover-wrapper">
-                      <div class="movie-poster">
-                        <img
-                          src="https://image.tmdb.org/t/p/original/tuzKA9K5Ae9IzaA0R9oAgbyhAI3.jpg"
-                          alt="poster"
-                          class="poster"
-                        />
-                      </div>
-                      <div class="movie-info">
-                        <div class="movie-info__movie-title">
-                          蝙蝠俠
-                        </div>
-                        <div class="movie-info__movie-original-title">
-                          bat man
-                        </div>
-                        <div class="movie-info__movie-release-date">
-                          上映日期：<span>2023-06-30</span>
-                        </div>
-                      </div>
-                  </div>
-                </li>
-                <li class="list-item">
-                  <div class="hover-wrapper">
-                      <div class="movie-poster">
-                        <img
-                          src="https://image.tmdb.org/t/p/original/tuzKA9K5Ae9IzaA0R9oAgbyhAI3.jpg"
-                          alt="poster"
-                          class="poster"
-                        />
-                      </div>
-                      <div class="movie-info">
-                        <div class="movie-info__movie-title">
-                          蝙蝠俠
-                        </div>
-                        <div class="movie-info__movie-original-title">
-                          bat man
-                        </div>
-                        <div class="movie-info__movie-release-date">
-                          上映日期：<span>2023-06-30</span>
-                        </div>
-                      </div>
-                  </div>
-                </li>
-                <li class="list-item">
-                  <div class="hover-wrapper">
-                      <div class="movie-poster">
-                        <img
-                          src="https://image.tmdb.org/t/p/original/tuzKA9K5Ae9IzaA0R9oAgbyhAI3.jpg"
-                          alt="poster"
-                          class="poster"
-                        />
-                      </div>
-                      <div class="movie-info">
-                        <div class="movie-info__movie-title">
-                          蝙蝠俠
-                        </div>
-                        <div class="movie-info__movie-original-title">
-                          bat man
-                        </div>
-                        <div class="movie-info__movie-release-date">
-                          上映日期：<span>2023-06-30</span>
+                          上映日期：<span>{{ collection.release_date }}</span>
                         </div>
                       </div>
                   </div>
@@ -165,17 +99,93 @@
 </template>
 
 <script>
+import { toTC } from '../utils/traditionalized'
+import { mixinFilter } from '../utils/mixin'
+
 export default {
+  mixins: [ mixinFilter ],
+  props: {
+    initialMovie: {
+      type: Object,
+      default: () => ({
+        id: 0,
+        backdrop_path: "",
+        genres: [],
+        belongs_to_collection: {},
+        title: "",
+        original_title: "",
+        release_date: "",
+        runtime: 0,
+        overview: "",
+        vote_average: 0,
+        vote_count: 0,
+        credits: {
+          cast: []
+        },
+      })
+    },
+    initialCollectionData: {
+      type: Array,
+    }
+  },
   data() {
     return {
-      backdrop:
-        "https://image.tmdb.org/t/p/original/IYUD7rAIXzBM91TT3Z5fILUS7n.jpg",
+      imageBaseURL: "https://image.tmdb.org/t/p/original",
+      emptyBackdrop: require('@/assets/images/empty-backdrop.png'),
+      movie: {
+        ...this.initialMovie
+      },
+      castSlice: this.initialMovie.credits.cast.slice(0, 5),
+      collectionData: this.initialCollectionData
     };
   },
   methods: {
+    backdropFilter(backdrop_path) {
+      if(!backdrop_path) {
+        return this.emptyBackdrop
+      } else {
+        return this.imageBaseURL + backdrop_path
+      }
+    },
     closeModal() {
       this.$emit('after-close-modal')
+    },
+    toTC, // 等同於 toTC: toTC
+    lessCast() {
+      this.castSlice = this.movie.credits.cast.slice(0, 5)
+    },
+    moreCast() {
+      this.castSlice = this.movie.credits.cast
     }
+  },
+  watch: {
+    initialMovie(newValue) {
+      this.movie = {
+        ...this.movie,
+        ...newValue
+      }
+    },
+    initialCollectionData(newValue) {
+     this.collectionData = newValue 
+    }
+  },
+  computed: {
+    runtimeConverter() {
+      const quotient = (Math.floor(this.movie.runtime / 60)).toString();
+      const remainder = (this.movie.runtime % 60).toString()
+      const convertedRuntime = quotient + ' 時 ' + remainder + ' 分 ';
+      return convertedRuntime
+    },
+    voteAverageConverter() {
+      let average = (Math.round(this.movie.vote_average * 10) / 10).toString()
+      
+      if (average.indexOf('.') < 0) {
+        average += '.0'
+        return average
+      } else {
+        return average
+      }
+    },
   }
 };
 </script>
@@ -188,11 +198,11 @@ export default {
   display: block;
 }
 
-
 .modal-content {
   background-color: #181818;
+  height: 85vh;
   .movie-detail-header {
-    flex: 1 1 70%;
+    flex: 1 1 65%;
     position: relative;
     display: flex;
     align-items: flex-end;
@@ -207,6 +217,7 @@ export default {
     &-title-wrapper {
       font-size: 2.25rem;
       line-height: 1.5;
+      max-width: 75%;
       .movie-title {
         font-weight: 700;
       }
@@ -249,9 +260,13 @@ export default {
   }
 
   .modal-body {
-    flex: 1 2 auto;
+    flex: 1 2 35%;
     span.info-title {
       color: #777777;
+    }
+
+    span.comma:not(:last-child)::after {
+      content: "、";
     }
 
     .movie-info {
@@ -259,6 +274,9 @@ export default {
       justify-content: space-between;
       font-size: 12px;
       line-height: 1.8;
+      .movie-genres { 
+        max-width: 70%;
+      }
     }
 
     .movie-vote {
@@ -268,8 +286,28 @@ export default {
         font-size: 16px;
       }
     }
+    
+    .movie-vote-empty {
+      font-size: 12px;
+      color: #777777;
+    }
 
-    .movie-vote, p.movie-overview, .movie-cast,.movie-collection-list__title {
+    .movie-cast {    
+      span.comma:nth-last-child(2)::after {
+        content: " ";
+        margin-right: 0.5em;
+      }
+      .movie-cast-view {
+        cursor: pointer;
+        color: $brand-sub-purple;
+        &:hover {
+          color: $original-movie-title;
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .movie-vote, .movie-vote-empty, p.movie-overview, .movie-cast,.movie-collection-list__title {
       margin: 20px 0;
       line-height: 1.5;
     }
@@ -283,17 +321,22 @@ export default {
       flex-wrap: wrap;
       li.list-item {
         margin: 0 0.8em 0.8em 0;
-        cursor: pointer;
-        .movie-poster {
-          width: 150px;
-          height: 225px;
-        }
-        .movie-info {
-          flex-direction: column;
-          align-items: center;
-          line-height: 1.2;
-          &__movie-original-title {
-            color: $original-movie-title;
+        width: 150px;
+        .hover-wrapper {
+          cursor: pointer;
+          .movie-poster {
+            width: 150px;
+            height: 225px;
+            margin-bottom: 0.5em;
+          }
+          .movie-info {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            line-height: 1.5;
+            &__movie-original-title {
+              color: $original-movie-title;
+            }
           }
         }
       }

@@ -27,7 +27,6 @@ export default {
     );
   },
   getCollection({ collectionId }) {
-    console.log(collectionId);
     return apiHelper.get(
       `/collection/${ collectionId }?api_key=${ apiKEY }&language=zh-TW&region=TW`
     );

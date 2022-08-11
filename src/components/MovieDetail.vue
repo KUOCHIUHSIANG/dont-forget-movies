@@ -130,7 +130,7 @@ export default {
   },
   data() {
     return {
-      imageBaseURL: "https://image.tmdb.org/t/p/original",
+      imageBaseURL: "https://image.tmdb.org/t/p/w1280",
       emptyBackdrop: require('@/assets/images/empty-backdrop.png'),
       movie: {
         ...this.initialMovie
@@ -171,10 +171,14 @@ export default {
   },
   computed: {
     runtimeConverter() {
-      const quotient = (Math.floor(this.movie.runtime / 60)).toString();
-      const remainder = (this.movie.runtime % 60).toString()
-      const convertedRuntime = quotient + ' 時 ' + remainder + ' 分 ';
-      return convertedRuntime
+      if (this.movie.runtime === 0) {
+        return '尚未提供'
+      } else {
+        const quotient = (Math.floor(this.movie.runtime / 60)).toString();
+        const remainder = (this.movie.runtime % 60).toString()
+        const convertedRuntime = quotient + ' 時 ' + remainder + ' 分 ';
+        return convertedRuntime
+      }
     },
     voteAverageConverter() {
       let average = (Math.round(this.movie.vote_average * 10) / 10).toString()

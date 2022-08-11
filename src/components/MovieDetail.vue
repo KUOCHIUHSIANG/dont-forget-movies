@@ -60,6 +60,7 @@
             </div>
             <div class="movie-cast">
               <span class="info-title">演員：</span>
+              <span v-if="castSlice.length === 0">尚未提供</span>
               <span class="comma" v-for="cast in castSlice" :key="cast.id">{{ cast.name }}</span>
               <span class="movie-cast-view" v-if="castSlice.length === 5 && movie.credits.cast.length > 5" @click="moreCast()">查看全部...</span>
               <span class="movie-cast-view" v-if="castSlice.length > 5" @click="lessCast()">收合</span>

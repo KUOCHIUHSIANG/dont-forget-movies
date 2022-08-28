@@ -113,29 +113,15 @@ export default {
     async fetchTrending() {
       try {
         const { data } = await moviesAPI.getTrending();
-        this.trendingMovies = data.results.map((movie) => (
-        {
+        this.trendingMovies = data.results.map((movie) => ({
           id: movie.id,
           posterPath: movie.poster_path,
           title: movie.title,
           originalTitle: movie.original_title,
           releaseDate: movie.release_date,
           inToWatch: false
-        }
-        ));
-        this.trendingMovies = this.trendingMovies.map((movie) => {
-          if (this.toWatchMovies.length > 0) {
-            for (let i = 0; i < this.toWatchMovies.length; i++) {
-              if(movie.id === this.toWatchMovies[i].id) {
-                movie.inToWatch = true
-              }
-            }
-            return movie
-          } else {
-            return movie
-          }
-        })
-        
+        }));
+        this.trendingMovies = this.filterToWatch(this.trendingMovies)
       } catch (error) {
         console.log("fetch trending error", error);
       }

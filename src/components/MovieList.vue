@@ -12,6 +12,8 @@
                 alt="poster"
                 class="poster"
               />
+              <div class="movie-detail-header-add-button button-size" v-if="!movie.inToWatch" @click.stop.prevent="addToWatch(movie)">＋</div>
+              <div class="movie-detail-header-delete-button button-size" v-else @click.stop.prevent="deleteToWatch(movie)">✔</div>
             </div>
             <div class="movie-info">
               <div class="movie-info__movie-title">{{ movie.title }}</div>
@@ -54,6 +56,12 @@ export default {
   methods: {
     showModal(movieId) {
       this.$emit('after-show-modal', movieId)
+    },
+    addToWatch(movie) {
+      this.$emit('after-add-to-watch', movie)
+    },
+    deleteToWatch(movie) {
+      this.$emit('after-delete-to-watch', movie)
     }
   },
   watch: {
@@ -103,7 +111,26 @@ a:hover .hover-wrapper {
       .movie-poster {
         width: 16.56em;
         height: 23.56em;
+        position: relative;
+        .button-size {
+          position: absolute;
+          top: 1rem;
+          right: 1rem;
+          height: 2rem;
+          width: 2rem;
+          line-height: calc(2rem - 1px);
+          text-align: center;
+          border-radius: 50%;
+          border: 1px solid #3c3c3c;
+          background-color: #3c3c3c5c;
+          margin-left: 10px;
+          cursor: pointer;
+          &:hover {
+            border: 1px solid #fff;
+          }
+        }
       }
+      
       .movie-info {
         line-height: 1.5;
         padding: 0.7em 0.5em 0.5em;

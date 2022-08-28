@@ -14,8 +14,8 @@
             <div class="movie-title">{{ movie.title }}</div>
             <div class="movie-original-title">{{ movie.original_title }}</div>
           </div>
-          <div class="movie-detail-header-add-button button-size">＋</div>
-          <div class="movie-detail-header-delete-button button-size">✔</div>
+          <div class="movie-detail-header-add-button button-size" v-if="!movie.inToWatch" @click="addToWatch(movie)">＋</div>
+          <div class="movie-detail-header-delete-button button-size" v-else @click="deleteToWatch(movie)">✔</div>
           <div
             class="movie-detail-header-close-button"    
             @click="closeModal"        
@@ -123,6 +123,7 @@ export default {
         credits: {
           cast: []
         },
+        inToWatch: false
       })
     },
     initialCollectionData: {
@@ -157,6 +158,12 @@ export default {
     },
     moreCast() {
       this.castSlice = this.movie.credits.cast
+    },
+    addToWatch(movie) {
+      this.$emit('after-add-to-watch', movie)
+    },
+    deleteToWatch(movie) {
+      this.$emit('after-delete-to-watch', movie)
     } 
   },
   watch: {
@@ -251,7 +258,7 @@ export default {
     .button-size {
       width: 31px;
       height: 31px;
-      line-height: 31px;
+      line-height: calc(31px - 2px);
       text-align: center;
       border-radius: 50%;
       border: 1px solid #3c3c3c;

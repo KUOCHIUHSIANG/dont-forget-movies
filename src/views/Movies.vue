@@ -1,15 +1,43 @@
 <template>
   <div class="container py-5">
-    <MovieList :initialMovies="trendingMovies" :initialTitle="trendingTitle" @after-show-modal="afterShowModal" @after-add-to-watch="afterAddToWatch" @after-delete-to-watch="afterDeleteToWatch"/>
-    <MovieList :initialMovies="onShowMovies" :initialTitle="onShowTitle" @after-show-modal="afterShowModal" @after-add-to-watch="afterAddToWatch" @after-delete-to-watch="afterDeleteToWatch"/>
-    <MovieList :initialMovies="comingMovies" :initialTitle="comingTitle" @after-show-modal="afterShowModal" @after-add-to-watch="afterAddToWatch" @after-delete-to-watch="afterDeleteToWatch"/>
+    <MovieList
+      :initialMovies="trendingMovies"
+      :initialTitle="trendingTitle"
+      @after-show-modal="afterShowModal"
+      @after-add-to-watch="afterAddToWatch"
+      @after-delete-to-watch="afterDeleteToWatch"
+    />
+    <MovieList
+      :initialMovies="onShowMovies"
+      :initialTitle="onShowTitle"
+      @after-show-modal="afterShowModal"
+      @after-add-to-watch="afterAddToWatch"
+      @after-delete-to-watch="afterDeleteToWatch"
+    />
+    <MovieList
+      :initialMovies="comingMovies"
+      :initialTitle="comingTitle"
+      @after-show-modal="afterShowModal"
+      @after-add-to-watch="afterAddToWatch"
+      @after-delete-to-watch="afterDeleteToWatch"
+    />
     <MovieList
       :initialMovies="popularityMovies"
       :initialTitle="popularityTitle"
-      @after-show-modal="afterShowModal" @after-add-to-watch="afterAddToWatch" @after-delete-to-watch="afterDeleteToWatch"
+      @after-show-modal="afterShowModal"
+      @after-add-to-watch="afterAddToWatch"
+      @after-delete-to-watch="afterDeleteToWatch"
     />
     <!-- modal -->
-    <router-view v-if="modalVisibility" :initialMovie="movie" :initialCollectionData="collectionData" @after-close-modal="afterCloseModal"  @after-add-to-watch="afterAddToWatch" @after-delete-to-watch="afterDeleteToWatch"/>
+    <MovieDetailLoadingVue v-if="modalIsLoading" />
+    <router-view
+      v-if="modalVisibility"
+      :initialMovie="movie"
+      :initialCollectionData="collectionData"
+      @after-close-modal="afterCloseModal"
+      @after-add-to-watch="afterAddToWatch"
+      @after-delete-to-watch="afterDeleteToWatch"
+    />
     <div class="modal-backdrop" v-if="modalVisibility"></div>
   </div>
 </template>
@@ -17,14 +45,18 @@
 <script>
 import moviesAPI from "../apis/movies";
 import MovieList from "../components/MovieList.vue";
-const STORAGE_KEY = 'to-watch-movies';
+import MovieDetailLoadingVue from "../components/MovieDetailLoading.vue";
+
+const STORAGE_KEY = "to-watch-movies";
 
 export default {
   components: {
     MovieList,
+    MovieDetailLoadingVue,
   },
   created() {
-    this.toWatchMovies = JSON.parse(localStorage.getItem('to-watch-movies')) || []
+    this.toWatchMovies =
+      JSON.parse(localStorage.getItem("to-watch-movies")) || [];
     this.getToday();
     this.fetchTrending();
     this.fetchOnShow();
@@ -42,7 +74,8 @@ export default {
       comingTitle: "即將上映",
       popularityTitle: "近期受歡迎",
       today: "",
-      modalVisibility: false,      
+      modalVisibility: false,
+      modalIsLoading: false,
       movie: {
         id: 0,
         backdrop_path: "",
@@ -56,45 +89,45 @@ export default {
         vote_average: 0,
         vote_count: 0,
         credits: {},
-        inToWatch: false
+        inToWatch: false,
       },
       collectionData: [],
-      toWatchMovies: []
+      toWatchMovies: [],
     };
   },
   methods: {
     filterToWatch(unfilteredMovies) {
-      let filteredToWatchMovies =  unfilteredMovies.map((movie) => {
-          if (this.toWatchMovies.length > 0) {
-            for (let i = 0; i < this.toWatchMovies.length; i++) {
-              if(movie.id === this.toWatchMovies[i].id) {
-                movie.inToWatch = true
-              }
+      let filteredToWatchMovies = unfilteredMovies.map((movie) => {
+        if (this.toWatchMovies.length > 0) {
+          for (let i = 0; i < this.toWatchMovies.length; i++) {
+            if (movie.id === this.toWatchMovies[i].id) {
+              movie.inToWatch = true;
             }
-            return movie
-          } else {
-            return movie
           }
-        })
-        
-        return filteredToWatchMovies
+          return movie;
+        } else {
+          return movie;
+        }
+      });
+
+      return filteredToWatchMovies;
     },
     filterDeleteToWatch(movieId, unfilteredMovies) {
       let filteredToWatchMovies = unfilteredMovies.map((unfilteredMovie) => {
-        if(unfilteredMovie.id === movieId) {
+        if (unfilteredMovie.id === movieId) {
           return {
             ...unfilteredMovie,
-            inToWatch: false
-          }
+            inToWatch: false,
+          };
         } else {
-          return unfilteredMovie
+          return unfilteredMovie;
         }
-      })
+      });
 
-      return filteredToWatchMovies
+      return filteredToWatchMovies;
     },
     saveStorage() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.toWatchMovies))
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.toWatchMovies));
     },
     getToday() {
       const date = new Date();
@@ -108,7 +141,7 @@ export default {
       if (day < 10) {
         day = 0 + day.toString();
       }
-      this.today = year + "-" + month + "-" + day;    
+      this.today = year + "-" + month + "-" + day;
     },
     async fetchTrending() {
       try {
@@ -119,9 +152,9 @@ export default {
           title: movie.title,
           originalTitle: movie.original_title,
           releaseDate: movie.release_date,
-          inToWatch: false
+          inToWatch: false,
         }));
-        this.trendingMovies = this.filterToWatch(this.trendingMovies)
+        this.trendingMovies = this.filterToWatch(this.trendingMovies);
       } catch (error) {
         console.log("fetch trending error", error);
       }
@@ -135,9 +168,9 @@ export default {
           title: movie.title,
           originalTitle: movie.original_title,
           releaseDate: movie.release_date,
-          inToWatch: false
+          inToWatch: false,
         }));
-        this.onShowMovies = this.filterToWatch(this.onShowMovies)
+        this.onShowMovies = this.filterToWatch(this.onShowMovies);
       } catch (error) {
         console.log("fetch onShow error", error);
       }
@@ -151,9 +184,9 @@ export default {
           title: movie.title,
           originalTitle: movie.original_title,
           releaseDate: movie.release_date,
-          inToWatch: false
+          inToWatch: false,
         }));
-        this.comingMovies = this.filterToWatch(this.comingMovies)
+        this.comingMovies = this.filterToWatch(this.comingMovies);
       } catch (error) {
         console.log("fetch coming error", error);
       }
@@ -167,17 +200,18 @@ export default {
           title: movie.title,
           originalTitle: movie.original_title,
           releaseDate: movie.release_date,
-          inToWatch: false
+          inToWatch: false,
         }));
-        this.popularityMovies = this.filterToWatch(this.popularityMovies)
+        this.popularityMovies = this.filterToWatch(this.popularityMovies);
       } catch (error) {
         console.log("fetch popularity error", error);
       }
     },
     async afterShowModal(movieId) {
       try {
-        const { data } = await moviesAPI.getMovieDetail({ movieId })   
-        
+        this.modalIsLoading = true;
+        const { data } = await moviesAPI.getMovieDetail({ movieId });
+
         this.movie = {
           ...this.movie,
           id: data.id,
@@ -192,79 +226,90 @@ export default {
           vote_average: data.vote_average,
           vote_count: data.vote_count,
           credits: data.credits,
-          inToWatch: false
-        }
-        
+          inToWatch: false,
+        };
+
         if (this.toWatchMovies.length > 0) {
           for (let i = 0; i < this.toWatchMovies.length; i++) {
-            if(Number(movieId) === this.toWatchMovies[i].id) {
-              this.movie.inToWatch = true
+            if (Number(movieId) === this.toWatchMovies[i].id) {
+              this.movie.inToWatch = true;
             }
           }
         }
 
         if (data.belongs_to_collection) {
-          let collectionId = data.belongs_to_collection.id
-          const response = await moviesAPI.getCollection({ collectionId })
-          this.collectionData = response.data.parts.filter(collection => collection.id !== this.movie.id)
+          let collectionId = data.belongs_to_collection.id;
+          const response = await moviesAPI.getCollection({ collectionId });
+          this.collectionData = response.data.parts.filter(
+            (collection) => collection.id !== this.movie.id
+          );
         } else {
-          this.collectionData = null
+          this.collectionData = null;
         }
-        
-        this.modalVisibility = true
-        document.body.style.overflow = 'hidden'
+
+        this.modalIsLoading = false;
+        this.modalVisibility = true;
+        document.body.style.overflow = "hidden";
       } catch (error) {
+        this.modalIsLoading = false;
         console.log("after show modal error", error);
       }
     },
     afterCloseModal() {
-      this.modalVisibility = false
-      document.body.removeAttribute('style')
-      this.$router.push('/movies')
+      this.modalVisibility = false;
+      document.body.removeAttribute("style");
+      this.$router.push("/movies");
     },
     afterAddToWatch(movie) {
-      movie.inToWatch = true
-      this.toWatchMovies.push(movie)
-      this.trendingMovies = this.filterToWatch(this.trendingMovies)
-      this.onShowMovies = this.filterToWatch(this.onShowMovies)
-      this.comingMovies = this.filterToWatch(this.comingMovies)
-      this.popularityMovies = this.filterToWatch(this.popularityMovies)
+      movie.inToWatch = true;
+      this.toWatchMovies.push(movie);
+      this.trendingMovies = this.filterToWatch(this.trendingMovies);
+      this.onShowMovies = this.filterToWatch(this.onShowMovies);
+      this.comingMovies = this.filterToWatch(this.comingMovies);
+      this.popularityMovies = this.filterToWatch(this.popularityMovies);
     },
     afterDeleteToWatch(movie) {
-      movie.inToWatch = false
-      this.toWatchMovies = this.toWatchMovies.filter(toWatchMovie => toWatchMovie.id !== movie.id)
-      this.trendingMovies = this.filterDeleteToWatch(movie.id, this.trendingMovies)
-      this.onShowMovies = this.filterDeleteToWatch(movie.id, this.onShowMovies)
-      this.comingMovies = this.filterDeleteToWatch(movie.id, this.comingMovies)
-      this.popularityMovies = this.filterDeleteToWatch(movie.id, this.popularityMovies)
-    }
+      movie.inToWatch = false;
+      this.toWatchMovies = this.toWatchMovies.filter(
+        (toWatchMovie) => toWatchMovie.id !== movie.id
+      );
+      this.trendingMovies = this.filterDeleteToWatch(
+        movie.id,
+        this.trendingMovies
+      );
+      this.onShowMovies = this.filterDeleteToWatch(movie.id, this.onShowMovies);
+      this.comingMovies = this.filterDeleteToWatch(movie.id, this.comingMovies);
+      this.popularityMovies = this.filterDeleteToWatch(
+        movie.id,
+        this.popularityMovies
+      );
+    },
   },
   watch: {
     toWatchMovies: {
-      handler: function() {
-        this.saveStorage()
+      handler: function () {
+        this.saveStorage();
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   beforeRouteUpdate(to, from, next) {
-    const { id: movieId } = to.params
-    
-    if(movieId) {
-      this.afterShowModal(movieId)
+    const { id: movieId } = to.params;
+
+    if (movieId) {
+      this.afterShowModal(movieId);
     } else {
-      this.modalVisibility = false
-      document.body.removeAttribute('style')
+      this.modalVisibility = false;
+      document.body.removeAttribute("style");
     }
-    
-    next()
-  }
+
+    next();
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-
 .modal-backdrop {
-  opacity: .5;
+  opacity: 0.5;
 }
 </style>

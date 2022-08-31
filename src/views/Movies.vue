@@ -55,8 +55,7 @@ export default {
     MovieDetailLoadingVue,
   },
   created() {
-    this.toWatchMovies =
-      JSON.parse(localStorage.getItem("to-watch-movies")) || [];
+    this.toWatchMovies = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
     this.getToday();
     this.fetchTrending();
     this.fetchOnShow();

@@ -95,6 +95,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/scss/MovieListSharedStyle.scss";
-
+@import "../assets/scss/movie-list-shared-style.scss";
 </style>

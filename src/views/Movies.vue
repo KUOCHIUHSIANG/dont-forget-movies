@@ -77,16 +77,16 @@ export default {
       modalIsLoading: false,
       movie: {
         id: 0,
-        backdrop_path: "",
+        backdropPath: "",
         genres: [],
-        belongs_to_collection: {},
+        belongsToCollection: {},
         title: "",
-        original_title: "",
-        release_date: "",
+        originalTitle: "",
+        releaseDate: "",
         runtime: 0,
         overview: "",
-        vote_average: 0,
-        vote_count: 0,
+        voteAverage: 0,
+        voteCount: 0,
         credits: {},
         inToWatch: false,
       },
@@ -214,16 +214,17 @@ export default {
         this.movie = {
           ...this.movie,
           id: data.id,
-          backdrop_path: data.backdrop_path,
+          backdropPath: data.backdrop_path,
+          posterPath: data.poster_path,
           genres: data.genres,
-          belongs_to_collection: data.belongs_to_collection,
+          belongsToCollection: data.belongs_to_collection,
           title: data.title,
-          original_title: data.original_title,
-          release_date: data.release_date,
+          originalTitle: data.original_title,
+          releaseDate: data.release_date,
           runtime: data.runtime,
           overview: data.overview,
-          vote_average: data.vote_average,
-          vote_count: data.vote_count,
+          voteAverage: data.vote_average,
+          voteCount: data.vote_count,
           credits: data.credits,
           inToWatch: false,
         };
@@ -261,7 +262,15 @@ export default {
     },
     afterAddToWatch(movie) {
       movie.inToWatch = true;
-      this.toWatchMovies.push(movie);
+      const listMovie = {
+        id: movie.id,
+        title: movie.title,
+        originalTitle: movie.originalTitle,
+        posterPath: movie.posterPath,
+        releaseDate: movie.releaseDate,
+        inToWatch: movie.inToWatch,
+      };
+      this.toWatchMovies.push(listMovie);
       this.trendingMovies = this.filterToWatch(this.trendingMovies);
       this.onShowMovies = this.filterToWatch(this.onShowMovies);
       this.comingMovies = this.filterToWatch(this.comingMovies);

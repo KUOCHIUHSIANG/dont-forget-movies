@@ -44,9 +44,15 @@
         </a>
       </li>
     </ul>
-    <div class="modal" tabindex="-1" id="movie-detail">
+    <div class="modal fade" tabindex="-1" id="movie-detail">
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
+        <div v-if="isLoading" class="modal-content">
+          <LoadingSpinner />
+          <div class="movie-detail-header-close-button" data-dismiss="modal">
+            ✕
+          </div>
+        </div>
+        <div v-else class="modal-content">
           <div
             class="movie-detail-header"
             :style="{
@@ -144,7 +150,10 @@
                     v-for="collection in collectionData"
                     :key="collection.id"
                   >
-                    <div class="hover-wrapper">
+                    <div
+                      @click="showModal(collection.id)"
+                      class="hover-wrapper"
+                    >
                       <div class="movie-poster">
                         <img
                           :src="collection.poster_path | fullyImagePath"
@@ -179,6 +188,7 @@
 import { toTC } from "../utils/traditionalized";
 import { mixinFilter } from "../utils/mixin";
 import moviesAPI from "../apis/movies";
+import LoadingSpinner from "../components/LoadingSpinner.vue";
 
 const STORAGE_KEY = "to-watch-movies";
 
@@ -187,6 +197,9 @@ export default {
     this.toWatchMovies = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
   },
   mixins: [mixinFilter],
+  components: {
+    LoadingSpinner,
+  },
   data() {
     return {
       toWatchMovies: [],
@@ -195,6 +208,7 @@ export default {
       movie: {},
       castSlice: [],
       collectionData: [],
+      isLoading: true,
     };
   },
   methods: {
@@ -203,6 +217,7 @@ export default {
     },
     async showModal(movieId) {
       try {
+        this.isLoading = true;
         const { data, status, statusText } = await moviesAPI.getMovieDetail({
           movieId,
         });
@@ -240,7 +255,6 @@ export default {
         if (data.belongs_to_collection) {
           let collectionId = data.belongs_to_collection.id;
           const response = await moviesAPI.getCollection({ collectionId });
-          console.log(response);
           this.collectionData = response.data.parts.filter(
             (collection) => collection.id !== this.movie.id
           );
@@ -249,7 +263,9 @@ export default {
         }
 
         this.castSlice = this.movie.credits.cast.slice(0, 5);
+        this.isLoading = false;
       } catch (error) {
+        this.isLoading = false;
         console.log("error", error);
       }
     },

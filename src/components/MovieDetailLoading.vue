@@ -1,10 +1,9 @@
 <template>
   <div class="modal" tabindex="-1" id="movie-detail">
-    <div
-      class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <LoadingSpinner />
-        <div class="movie-detail-header-close-button">
+        <div class="movie-detail-header-close-button" data-dismiss="modal">
           ✕
         </div>
       </div>
@@ -49,5 +48,4 @@ export default {
     }
   }
 }
-
 </style>

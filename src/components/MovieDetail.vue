@@ -208,7 +208,7 @@ export default {
     },
     initialCollectionData(newValue) {
       this.collectionData = newValue;
-    }
+    },
   },
   computed: {
     runtimeConverter() {
@@ -230,11 +230,11 @@ export default {
         return average;
       }
     },
-  }
+  },
 };
 </script>
 >
 
 <style lang="scss" scoped>
-@import "../assets/scss/movie-detail-modal-shared-style.scss"
+@import "../assets/scss/movie-detail-modal-shared-style.scss";
 </style>

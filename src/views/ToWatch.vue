@@ -157,10 +157,10 @@
                           {{ collection.title }}
                         </div>
                         <div class="movie-info__movie-original-title">
-                          {{ collection.originalTitle }}
+                          {{ collection.original_title }}
                         </div>
                         <div class="movie-info__movie-release-date">
-                          上映日期：<span>{{ collection.releaseDate }}</span>
+                          上映日期：<span>{{ collection.release_date }}</span>
                         </div>
                       </div>
                     </div>
@@ -240,6 +240,7 @@ export default {
         if (data.belongs_to_collection) {
           let collectionId = data.belongs_to_collection.id;
           const response = await moviesAPI.getCollection({ collectionId });
+          console.log(response);
           this.collectionData = response.data.parts.filter(
             (collection) => collection.id !== this.movie.id
           );
@@ -276,7 +277,7 @@ export default {
         releaseDate: movie.releaseDate,
         inToWatch: movie.inToWatch,
       };
-      
+
       this.toWatchMovies.push(listMovie);
     },
     deleteToWatch(movie) {

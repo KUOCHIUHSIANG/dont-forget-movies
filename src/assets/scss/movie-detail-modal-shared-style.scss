@@ -1,5 +1,11 @@
 @import "../assets/scss/variable.scss";
 
+a,
+a:hover,
+a:focus {
+  color: $text-main;
+}
+
 .modal {
   display: block;
 }
@@ -163,6 +169,10 @@
             align-items: center;
             text-align: center;
             line-height: 1.5;
+
+            &__movie-title {
+              font-weight: 500;
+            }
 
             &__movie-original-title {
               color: $original-movie-title;

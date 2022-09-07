@@ -102,26 +102,37 @@
                   v-for="collection in collectionData"
                   :key="collection.id"
                 >
-                  <div @click="showModal(collection.id)" class="hover-wrapper">
-                    <div class="movie-poster">
-                      <img
-                        :src="collection.poster_path | fullyImagePath"
-                        alt="poster"
-                        class="poster"
-                      />
+                  <router-link
+                    :to="{
+                      name: 'movie-detail',
+                      params: { id: collection.id },
+                    }"
+                    v-if="movie.posterPath"
+                    class="item-wrapper"
+                  >
+                    <div
+                      class="hover-wrapper"
+                    >
+                      <div class="movie-poster">
+                        <img
+                          :src="collection.poster_path | fullyImagePath"
+                          alt="poster"
+                          class="poster"
+                        />
+                      </div>
+                      <div class="movie-info">
+                        <div class="movie-info__movie-title">
+                          {{ collection.title }}
+                        </div>
+                        <div class="movie-info__movie-original-title">
+                          {{ collection.original_title }}
+                        </div>
+                        <div class="movie-info__movie-release-date">
+                          上映日期：<span>{{ collection.release_date }}</span>
+                        </div>
+                      </div>
                     </div>
-                    <div class="movie-info">
-                      <div class="movie-info__movie-title">
-                        {{ collection.title }}
-                      </div>
-                      <div class="movie-info__movie-original-title">
-                        {{ collection.original_title }}
-                      </div>
-                      <div class="movie-info__movie-release-date">
-                        上映日期：<span>{{ collection.release_date }}</span>
-                      </div>
-                    </div>
-                  </div>
+                  </router-link>
                 </li>
               </ul>
             </div>
@@ -197,9 +208,6 @@ export default {
     },
     deleteToWatch(movie) {
       this.$emit("after-delete-to-watch", movie);
-    },
-    showModal(movieId) {
-      this.$emit("after-show-modal", movieId);
     },
   },
   watch: {

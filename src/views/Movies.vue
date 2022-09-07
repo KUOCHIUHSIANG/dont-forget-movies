@@ -34,7 +34,6 @@
       v-if="modalVisibility"
       :initialMovie="movie"
       :initialCollectionData="collectionData"
-      @after-show-modal="afterShowModal"
       @after-close-modal="afterCloseModal"
       @after-add-to-watch="afterAddToWatch"
       @after-delete-to-watch="afterDeleteToWatch"

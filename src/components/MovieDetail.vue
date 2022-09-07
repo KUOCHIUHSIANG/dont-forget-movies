@@ -102,7 +102,7 @@
                   v-for="collection in collectionData"
                   :key="collection.id"
                 >
-                  <div class="hover-wrapper">
+                  <div @click="showModal(collection.id)" class="hover-wrapper">
                     <div class="movie-poster">
                       <img
                         :src="collection.poster_path | fullyImagePath"
@@ -197,6 +197,9 @@ export default {
     },
     deleteToWatch(movie) {
       this.$emit("after-delete-to-watch", movie);
+    },
+    showModal(movieId) {
+      this.$emit("after-show-modal", movieId);
     },
   },
   watch: {

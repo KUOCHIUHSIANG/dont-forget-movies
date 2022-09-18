@@ -84,7 +84,7 @@
               ✕
             </div>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" ref="modalBody">
             <div class="movie-detail-body">
               <div class="movie-info">
                 <div class="movie-info-wrapper">
@@ -151,7 +151,7 @@
                     :key="collection.id"
                   >
                     <div
-                      @click="showModal(collection.id)"
+                      @click="scrollToTop(collection.id)"
                       class="hover-wrapper"
                     >
                       <div class="movie-poster">
@@ -301,6 +301,10 @@ export default {
       this.toWatchMovies = this.toWatchMovies.filter(
         (toWatchMovie) => toWatchMovie.id !== movie.id
       );
+    },
+    scrollToTop(movieId) {
+      this.$refs.modalBody.scrollTo(0, 0);
+      this.showModal(movieId);
     },
   },
   computed: {

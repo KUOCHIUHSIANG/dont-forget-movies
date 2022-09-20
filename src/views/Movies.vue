@@ -38,7 +38,7 @@
       @after-add-to-watch="afterAddToWatch"
       @after-delete-to-watch="afterDeleteToWatch"
     />
-    <div class="modal-backdrop" v-if="modalVisibility"></div>
+    <div class="modal-backdrop" v-if="modalVisibility || modalIsLoading"></div>
   </div>
 </template>
 
@@ -208,6 +208,7 @@ export default {
     },
     async afterShowModal(movieId) {
       try {
+        document.body.style.overflow = "hidden";
         this.modalVisibility = false;
         this.modalIsLoading = true;
         const { data } = await moviesAPI.getMovieDetail({ movieId });
@@ -247,10 +248,8 @@ export default {
         } else {
           this.collectionData = null;
         }
-
         this.modalIsLoading = false;
         this.modalVisibility = true;
-        document.body.style.overflow = "hidden";
       } catch (error) {
         this.modalIsLoading = false;
         console.log("after show modal error", error);

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import NotFound from '../views/NotFound.vue'
-import MovieDetail from '../components/MovieDetail'
+import DontForgetMovies from '../views/Movies.vue'
 
 Vue.use(VueRouter)
 
@@ -9,17 +9,17 @@ const routes = [
   {
     path: "/",
     name: "root",
-    redirect: "/movies",
+    redirect: "/dont-forget-movies",
   },
   {
-    path: "/movies",
-    name: "movies",
-    component: () => import("../views/Movies.vue"),
+    path: "/dont-forget-movies",
+    name: "dont-forget-movies",
+    component: DontForgetMovies,
     children: [
       {
-        path: "/movies/:id",
+        path: "movie/:id",
         name: "movie-detail",
-        component: MovieDetail,
+        component: () => import("../components/MovieDetail.vue"),
       },
     ],
   },
@@ -27,6 +27,9 @@ const routes = [
     path: "/to-watch",
     name: "to-watch",
     component: () => import("../views/ToWatch.vue"),
+  },
+  {
+    path: "/search",
   },
   {
     path: "*",

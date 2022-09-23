@@ -24,12 +24,14 @@ const routes = [
     ],
   },
   {
-    path: "/to-watch",
+    path: "/dont-forget-movies/to-watch",
     name: "to-watch",
     component: () => import("../views/ToWatch.vue"),
   },
   {
-    path: "/search",
+    path: "/dont-forget-movies/search",
+    name: "search",
+    component: () => import("../views/Search.vue"),
   },
   {
     path: "*",

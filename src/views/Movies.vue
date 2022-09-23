@@ -258,7 +258,7 @@ export default {
     afterCloseModal() {
       this.modalVisibility = false;
       document.body.removeAttribute("style");
-      this.$router.push("/movies");
+      this.$router.push("/dont-forget-movies");
     },
     afterAddToWatch(movie) {
       movie.inToWatch = true;

@@ -30,5 +30,10 @@ export default {
     return apiHelper.get(
       `/collection/${ collectionId }?api_key=${ apiKEY }&language=zh-TW&region=TW`
     );
+  },
+  searchMovie({ keyword }) {
+    return apiHelper.get(
+      `/search/movie?api_key=${ apiKEY }&language=zh-TW&query=${ keyword }`
+    );
   }
 };

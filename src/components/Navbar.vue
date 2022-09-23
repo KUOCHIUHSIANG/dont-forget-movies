@@ -4,7 +4,9 @@
       <router-link class="navbar-brand" to="/">Don’t Forget !</router-link>
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <router-link class="nav-link" to="/to-watch">To Watch</router-link>
+          <router-link class="nav-link" to="/dont-forget-movies/to-watch"
+            >To Watch</router-link
+          >
         </li>
       </ul>
       <form
@@ -50,6 +52,10 @@ export default {
       }
       console.log("想搜尋的關鍵字為：" + this.keyword);
       document.activeElement.blur();
+
+      this.$router.push({ name: "search", query: { keyword: this.keyword } });
+
+      this.keyword = "";
     },
   },
 };

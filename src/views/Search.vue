@@ -141,6 +141,12 @@ export default {
 .movie-list {
   max-width: 1024px;
   font-size: 0.9rem;
+  .empty-result {
+    font-size: 1rem;
+    text-align: center;
+    padding: 5rem 0;
+    color: #ffffff77;
+  }
 }
 
 /* media query */

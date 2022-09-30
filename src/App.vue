@@ -20,3 +20,14 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+#dont-forget-movie {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  .container {
+    flex: 1;
+  }
+}
+</style>

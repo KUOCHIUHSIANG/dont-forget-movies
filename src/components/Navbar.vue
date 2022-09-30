@@ -50,7 +50,7 @@ export default {
       if (this.keyword.length === 0) {
         return;
       }
-      console.log("想搜尋的關鍵字為：" + this.keyword);
+      
       document.activeElement.blur();
 
       this.$router.push({ name: "search", query: { keyword: this.keyword } });

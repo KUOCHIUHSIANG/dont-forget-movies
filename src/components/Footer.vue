@@ -3,7 +3,7 @@
     <footer class="footer">
       <div class="info">
         <a
-          href="https://github.com/KUOCHIUHSIANG"
+          href="https://github.com/KUOCHIUHSIANG/dont-forget-movies"
           target="_blank"
           class="github"
         >

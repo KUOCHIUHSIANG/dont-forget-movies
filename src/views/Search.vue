@@ -139,7 +139,7 @@ export default {
 @import "../assets/scss/movie-list-shared-style.scss";
 
 .movie-list {
-  max-width: 1024px;
+  max-width: 1040px;
   font-size: 0.9rem;
   .empty-result {
     font-size: 1rem;

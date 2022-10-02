@@ -1,6 +1,9 @@
 <template>
   <div class="container py-5 movie-list">
     <div class="movie-list__title">待看清單</div>
+    <div v-if="toWatchMovies.length === 0 && !isLoading" class="empty-result">
+      目前尚無待看電影
+    </div>
     <ListTemplateVue
       :initial-movies="toWatchMovies"
       :initial-to-watch-movies="toWatchMovies"
@@ -68,6 +71,12 @@ export default {
 .movie-list {
   max-width: 1040px;
   font-size: 0.9rem;
+  .empty-result {
+    font-size: 1rem;
+    text-align: center;
+    padding: 5rem 0;
+    color: #ffffff77;
+  }
 }
 
 /* media query */

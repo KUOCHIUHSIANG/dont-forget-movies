@@ -81,7 +81,13 @@ a:focus {
 
   .modal-body {
     flex: 1 2 35%;
-
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background-color: rgba(195, 195, 195, 0.672);
+    }
     span.info-title {
       color: #777777;
     }

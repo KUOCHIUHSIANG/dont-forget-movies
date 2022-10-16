@@ -24,6 +24,13 @@ time, mark, audio, video {
 ul::-webkit-scrollbar {
 	display: none;
 }
+body::-webkit-scrollbar {
+	width: 6px;
+}
+body::-webkit-scrollbar-thumb {
+	border-radius: 3px;
+	background-color: rgba(195, 195, 195, 0.672);
+}
 
 /* Hide scrollbar for IE, Edge and Firefox */
 ul {

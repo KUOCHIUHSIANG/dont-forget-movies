@@ -146,6 +146,11 @@ export default {
 .movie-list {
   &__ul-container {
     position: relative;
+    &:hover {
+      .previous, .next {
+        opacity: 1;
+      }
+    }
     ul {
       scroll-behavior: smooth;
     }
@@ -157,6 +162,7 @@ export default {
       justify-content: center;
       align-items: center;
       width: 50px;
+      opacity: 0;
       cursor: pointer;
       svg {
         width: 30%;

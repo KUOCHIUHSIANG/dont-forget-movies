@@ -1,10 +1,6 @@
 <template>
   <div id="dont-forget-movie">
     <Navbar />
-    <!-- 🔍 PSE 搜尋框 -->
-    <div class="container my-4">
-      <div class="gcse-search"></div>
-    </div>
     <router-view />
     <Footer />
   </div>
@@ -21,14 +17,7 @@ export default {
   components: {
     Navbar,
     Footer,
-  },
-  mounted() {
-    // 動態插入 Google PSE 的 script
-    const script = document.createElement("script");
-    script.src = "https://cse.google.com/cse.js?cx=00b05b3a64a2645bd"; // ← 改成你的 Engine ID
-    script.async = true;
-    document.body.appendChild(script);
-  },
+  }
 };
 </script>
 
